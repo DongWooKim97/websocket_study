@@ -1,6 +1,6 @@
 package com.example.websocket_study.chat.service;
 
-import com.example.websocket_study.chat.dto.MessageRoomDto;
+import com.example.websocket_study.chat.dto.ChatRoom;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -10,40 +10,38 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MessageService {
+public class ChatService {
     private final ObjectMapper objectMapper;
-    private Map<String, MessageRoomDto> msgRooms;
+    private Map<String, ChatRoom> chatRooms;
 
     @PostConstruct
     private void init() {
-        msgRooms = new LinkedHashMap<>();
+        chatRooms = new LinkedHashMap<>();
     }
 
-    public List<MessageRoomDto> findAllRoom() {
-        return new ArrayList<>(msgRooms.values());
+    public List<ChatRoom> findAllRoom() {
+        return new ArrayList<>(chatRooms.values());
     }
 
-    public MessageRoomDto findById(String roomId) {
-        return msgRooms.get(roomId);
+    public ChatRoom findRoomById(String roomId) {
+        return chatRooms.get(roomId);
     }
 
-    public MessageRoomDto createRoom(String name) {
-        String roomId = name;
+    public ChatRoom createRoom(String name) {
+        String randomId = UUID.randomUUID().toString();
 
-        MessageRoomDto messageRoomDto = MessageRoomDto.builder()
-                .roomId(roomId)
+        ChatRoom chatRoom = ChatRoom.builder()
+                .roomId(randomId)
+                .name(name)
                 .build();
 
-        msgRooms.put(roomId, messageRoomDto);
-        return messageRoomDto;
+        chatRooms.put(randomId, chatRoom);
+        return chatRoom;
     }
 
     public <T> void sendMessage(WebSocketSession session, T message) {

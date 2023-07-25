@@ -1,7 +1,7 @@
 package com.example.websocket_study.chat.controller;
 
-import com.example.websocket_study.chat.dto.MessageRoomDto;
-import com.example.websocket_study.chat.service.MessageService;
+import com.example.websocket_study.chat.dto.ChatRoom;
+import com.example.websocket_study.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,16 +11,16 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/chat")
 public class MessageController {
-    
-    private final MessageService messageService;
+
+    private final ChatService chatService;
 
     @PostMapping
-    public MessageRoomDto createRoom(@RequestParam String name) {
-        return messageService.createRoom(name);
+    public ChatRoom createRoom(@RequestParam String name) {
+        return chatService.createRoom(name);
     }
 
     @GetMapping
-    public List<MessageRoomDto> findAllRoom() {
-        return messageService.findAllRoom();
+    public List<ChatRoom> findAllRoom() {
+        return chatService.findAllRoom();
     }
 }

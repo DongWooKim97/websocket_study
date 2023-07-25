@@ -1,17 +1,18 @@
 package com.example.websocket_study.chat.dto;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class MessageDto {
+public class ChatMessage {
 
     public enum MessageType {
-        ENTER, COMM
+        ENTER, TALK
     }
 
-    private MessageType messageType;
+    private MessageType type;
     private String roomId;
     private String sender;
     private String message;
